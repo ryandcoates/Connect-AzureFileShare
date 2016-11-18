@@ -1,3 +1,27 @@
+<#
+.Synopsis
+   Connect-AzureFileShare quickly maps an Azure file share to a drive letter of your choice
+.DESCRIPTION
+   Long description
+.EXAMPLE
+   Connect-AzureFileShare -StorageAccountName "someaccount01" -ShareName "myfileshare" -DriveLetter "M"
+.EXAMPLE
+   Connect-AzureFileShare
+.AUTHOR
+    Ryan Coates
+    ryan.coates@gmail.com
+    https://github.com/ryandcoates
+.VERSION
+    0.1
+.INPUTS
+   Inputs to this cmdlet (if any)
+.OUTPUTS
+  Returns a properly formatted 'net use' command
+.COMPONENT
+   ENPTMPS AzureTools module (future)
+.FUNCTIONALITY
+   Searchs for the given storage account, grabs the Key and trys to mount the share
+#>
 function Connect-AzureFileShare
 {
     [CmdletBinding()]
