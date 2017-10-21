@@ -1,3 +1,5 @@
+#Requires -Modules AzureRM.Storage
+
 <#
 .Synopsis
    Connect-AzureFileShare quickly maps an Azure file share to a drive letter of your choice
@@ -12,7 +14,7 @@
     ryan.coates@gmail.com
     https://github.com/ryandcoates
 .VERSION
-    0.1
+    0.2
 .INPUTS
    Inputs to this cmdlet (if any)
 .OUTPUTS
@@ -38,7 +40,16 @@ function Connect-AzureFileShare
     )
 
     $StorageAccount = Get-AzureRMStorageAccount | ?{$_.StorageAccountName -eq "$StorageAccountName"}
-    
+    If ($StorageAccountName -eq $StorageAccount.StorageAccountName)
+        {
+
+        Write-Verbose "StorageAccountName resolves correctly"
+        Write-Debug "Entered [$StorageAccountName] and found [$($StorageAccount.StorageAccountName)]"
+        } else {
+            Write-Output "Storage Account Not Found"
+            Break
+        }
+
     # Validate DriveLetter and correct if needed
     If ($DriveLetter.Length -gt 1)
     {
@@ -54,6 +65,7 @@ function Connect-AzureFileShare
     }
 
     # Check DriveLetter is not currently in use 
+    Write-Verbose "Checking drive letter is not in use"
     $DriveExists = (Get-PSDrive -Name $DriveLetter[0] -ErrorAction SilentlyContinue)
     if ($DriveExists)
     {
